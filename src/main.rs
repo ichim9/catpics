@@ -1,4 +1,3 @@
-// STREAM #3 :D
 extern crate clap;
 extern crate reqwest;
 use clap::Command;
@@ -37,6 +36,6 @@ fn main() {
 
 fn shell() -> Command{
     Command::new("catpics").about("I wonder what the name of this implies, I personally haven't a clue!").subcommand(
-        Command::new("get")
+        Command::new("get").about("Fetch a cat pic and download it as 'catpic.png'")
     ).subcommand_required(true)
 }
