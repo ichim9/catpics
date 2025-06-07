@@ -1,35 +1,15 @@
 extern crate clap;
 extern crate reqwest;
+extern crate viuer;
+mod cataas;
+mod image;
+
 use clap::Command;
-use reqwest::blocking::get;
 fn main() {
     let cmd = shell().get_matches();
     match cmd.subcommand(){
-        Some(("get",_))=>{
-            match get("https://cataas.com/cat"){
-                Ok(k)=>{
-                    match k.bytes(){
-                        Ok(k)=>{
-                            match std::fs::write("catpic.png",k){
-                                Ok(_)=>{}
-                                Err(e)=>{
-                                    println!("Error writing file");
-                                    println!("Error will be displayed below:\n\n{e}\n\n");
-                                }
-                            }
-                        }
-                        Err(e)=>{
-                            println!("Error converting to bytes");
-                            println!("Error will be displayed below:\n\n{e}\n\n");
-                        }
-                    }
-                }
-                Err(e)=>{
-                    println!("Error connecting to catAAS?\n is your wifi broken?");
-                    println!("Error will be displayed below:\n\n{e}\n\n");
-                }
-            }
-        }
+        Some(("get",_))=>{cataas::get("catpic.png");}
+        Some(("view",_))=>{image::render()}
         _=>{}
     }
 }
@@ -37,5 +17,8 @@ fn main() {
 fn shell() -> Command{
     Command::new("catpics").about("I wonder what the name of this implies, I personally haven't a clue!").subcommand(
         Command::new("get").about("Fetch a cat pic and download it as 'catpic.png'")
+    )
+    .subcommand(
+        Command::new("view").about("View a cat pic, this stores the catpic temporarily as .tmpcat.png")
     ).subcommand_required(true)
 }
