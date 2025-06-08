@@ -5,7 +5,7 @@ mod cataas;
 mod image;
 
 use clap::Command;
-fn main() {
+fn main(){
     let cmd = shell().get_matches();
     match cmd.subcommand(){
         Some(("get",_))=>{cataas::get("catpic.png");}
